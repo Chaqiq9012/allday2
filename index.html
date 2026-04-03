@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>All Day Cafe & Restaurant — Settat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--dark:#171111;--gold:#e1a341;--gold-light:#f0bc64;--gold-dim:rgba(225,163,65,.15);--white:#fff;--off-white:#faf8f5;--gray:#888;--text:#2a1f1f;--border:#ece5db}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:72px;transition:all .4s;gap:1rem}
+nav.scrolled{background:var(--dark);box-shadow:0 2px 30px rgba(0,0,0,.4)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--white);text-decoration:none;letter-spacing:.02em;flex-shrink:0}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.88rem;font-weight:500;letter-spacing:.04em;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:.8rem;flex-shrink:0}
+.lang-switch{display:flex;align-items:center;gap:.3rem}
+.lang-btn{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.65);padding:.28rem .65rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;letter-spacing:.06em;transition:all .2s}
+.lang-btn.active{background:var(--gold);border-color:var(--gold);color:var(--dark)}
+.lang-btn:not(.active):hover{border-color:rgba(255,255,255,.7);color:var(--white)}
+.nav-cta{background:var(--gold);color:var(--dark);padding:.5rem 1.3rem;border-radius:50px;font-weight:600;text-decoration:none;font-size:.85rem;transition:all .25s;white-space:nowrap}
+.nav-cta:hover{background:var(--gold-light);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.hamburger span{display:block;width:24px;height:2px;background:var(--white);transition:all .3s}
+.hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(23,17,17,.92) 0%,rgba(23,17,17,.6) 50%,rgba(23,17,17,.3) 100%),url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1600&q=80') center/cover no-repeat}
+.hero-content{position:relative;z-index:2;padding:0 8%;max-width:700px;animation:heroIn .9s ease both}
+@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-block;background:var(--gold-dim);border:1px solid rgba(225,163,65,.4);color:var(--gold);padding:.35rem 1rem;border-radius:50px;font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.2rem}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6rem);font-weight:700;color:var(--white);line-height:1.0;margin-bottom:.8rem}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero-sub{font-size:1.1rem;color:rgba(255,255,255,.75);margin-bottom:2.5rem;font-weight:300;line-height:1.7}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--dark);padding:.85rem 2rem;border-radius:50px;text-decoration:none;font-weight:600;font-size:.95rem;transition:all .25s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 25px rgba(225,163,65,.4)}
+.btn-outline{background:transparent;color:var(--white);padding:.85rem 2rem;border-radius:50px;text-decoration:none;font-weight:500;font-size:.95rem;border:1.5px solid rgba(255,255,255,.4);transition:all .25s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,255,255,.5);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,rgba(225,163,65,.7),transparent);animation:sp 2s infinite}
+@keyframes sp{0%,100%{opacity:.4}50%{opacity:1}}
+section{padding:6rem 8%}
+.section-tag{display:inline-block;color:var(--gold);font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.8rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;color:var(--dark);line-height:1.15;margin-bottom:1rem}
+.section-title em{color:var(--gold);font-style:normal}
+.section-sub{color:var(--gray);font-size:1rem;line-height:1.7;max-width:520px}
+.features{background:var(--off-white)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;margin-top:3.5rem}
+.feature-card{background:var(--white);border-radius:20px;padding:2rem 1.8rem;box-shadow:0 4px 20px rgba(0,0,0,.06);transition:all .3s;position:relative;overflow:hidden}
+.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.feature-card:hover::before{transform:scaleX(1)}
+.feature-card:hover{transform:translateY(-5px);box-shadow:0 12px 35px rgba(0,0,0,.1)}
+.feature-icon{font-size:2.2rem;margin-bottom:1rem;display:block}
+.feature-card h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;margin-bottom:.5rem;color:var(--dark)}
+.feature-card p{font-size:.88rem;color:var(--gray);line-height:1.6}
+.popular-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:3rem}
+.popular-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.food-card{border-radius:24px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.07);transition:all .3s;background:var(--white)}
+.food-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.13)}
+.food-img{height:220px;position:relative;overflow:hidden}
+.food-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.food-card:hover .food-img img{transform:scale(1.06)}
+.food-badge{position:absolute;top:1rem;left:1rem;background:var(--dark);color:var(--gold);padding:.3rem .8rem;border-radius:50px;font-size:.75rem;font-weight:600}
+.food-info{padding:1.5rem}
+.food-info h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;margin-bottom:.4rem}
+.food-info p{font-size:.87rem;color:var(--gray);line-height:1.6;margin-bottom:1rem}
+.food-footer{display:flex;align-items:center;justify-content:space-between}
+.food-price{font-size:1.1rem;font-weight:600;color:var(--gold)}
+.food-btn{background:var(--dark);color:var(--white);border:none;padding:.5rem 1.2rem;border-radius:50px;font-size:.82rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s}
+.food-btn:hover{background:var(--gold);color:var(--dark)}
+.location{background:var(--dark)}
+.location .section-title{color:var(--white)}
+.location-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-top:3rem}
+.location-info{display:flex;flex-direction:column;gap:1.8rem}
+.info-item{display:flex;gap:1rem;align-items:flex-start}
+.info-icon{width:46px;height:46px;border-radius:12px;background:var(--gold-dim);border:1px solid rgba(225,163,65,.3);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.info-text h4{font-weight:600;margin-bottom:.2rem;color:var(--white)}
+.info-text p,.info-text a{font-size:.9rem;color:rgba(255,255,255,.6);line-height:1.6;text-decoration:none}
+.info-text a{display:inline-block;margin-bottom:.2rem}
+.info-text a:hover{color:var(--gold)}
+.wa-link{display:inline-flex!important;align-items:center;gap:.4rem;color:rgba(255,255,255,.6)}
+.map-wrap{border-radius:20px;overflow:hidden;height:340px;border:1px solid rgba(255,255,255,.08)}
+.map-wrap iframe{width:100%;height:100%;border:0}
+.reservation{background:var(--off-white)}
+.res-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:center}
+.res-left .section-sub{margin-bottom:2rem}
+.res-perks{display:flex;flex-direction:column;gap:1rem}
+.perk{display:flex;align-items:center;gap:.8rem;font-size:.92rem;color:var(--text)}
+.perk-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.res-form{background:var(--white);border-radius:28px;padding:3rem;box-shadow:0 8px 40px rgba(0,0,0,.09)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.form-group{display:flex;flex-direction:column;gap:.45rem;margin-bottom:1.2rem}
+.form-group label{font-size:.82rem;font-weight:600;color:var(--dark);letter-spacing:.04em;text-transform:uppercase}
+.form-group input,.form-group select{width:100%;padding:.8rem 1.1rem;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.93rem;color:var(--text);background:var(--off-white);transition:border .2s,box-shadow .2s;outline:none}
+.form-group input:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(225,163,65,.15)}
+.btn-submit{width:100%;padding:1rem;background:var(--dark);color:var(--white);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;transition:all .25s;margin-top:.5rem}
+.btn-submit:hover{background:var(--gold);color:var(--dark);transform:translateY(-2px)}
+.form-msg{text-align:center;font-size:.88rem;margin-top:.8rem;display:none}
+.form-msg.success{color:#3a9e5f;display:block}
+.form-msg.error{color:#c0392b;display:block}
+footer{background:var(--dark);padding:3rem 8% 2rem}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:2rem;margin-bottom:1.5rem}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--white)}
+.footer-brand span{color:var(--gold)}
+.footer-links{display:flex;gap:1.8rem;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.88rem;transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
+.footer-bottom{text-align:center;font-size:.8rem;color:rgba(255,255,255,.4)}
+@media(max-width:900px){.location-grid,.res-wrap{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+@media(max-width:700px){
+  section{padding:4rem 6%}
+  nav{padding:0 6%}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .hero-content{padding:0 6%}
+  .hero h1{font-size:2.8rem}
+  .popular-header{flex-direction:column;align-items:flex-start}
+  .res-form{padding:2rem 1.5rem}
+  .footer-inner{flex-direction:column;text-align:center}
+  .footer-links{justify-content:center}
+}
+nav.open .nav-links{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--dark);padding:1.5rem 6%;gap:1.2rem}
+nav.open .nav-cta{display:block;margin:0 6% 1.5rem;text-align:center}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">All Day <span>Cafe</span></a>
+  <ul class="nav-links">
+    <li><a href="#features" data-i18n="nav_about">À Propos</a></li>
+    <li><a href="#popular" data-i18n="nav_menu">Menu</a></li>
+    <li><a href="#location" data-i18n="nav_findus">Nous Trouver</a></li>
+    <li><a href="#reservation" data-i18n="nav_reserve">Réserver</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a href="menu.html" class="nav-cta" data-i18n="nav_order">Commander</a>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-badge" data-i18n="hero_badge">🏅 Meilleurs Bocadillos de Settat</span>
+    <h1>All Day<br/><em>Cafe &</em><br/>Restaurant</h1>
+    <p class="hero-sub" data-i18n="hero_sub">Saveurs fraîches, ambiance chaleureuse et les bocadillos les plus appréciés de Settat — ouverts toute la journée pour vous.</p>
+    <div class="hero-btns">
+      <a href="menu.html" class="btn-primary" data-i18n="hero_cta1">🍽️ Voir le Menu</a>
+      <a href="#reservation" class="btn-outline" data-i18n="hero_cta2">Réserver une Table</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span data-i18n="scroll">défiler</span></div>
+</section>
+
+<section class="features" id="features">
+  <div style="text-align:center;margin-bottom:.5rem">
+    <span class="section-tag" data-i18n="feat_tag">Pourquoi Nous Choisir</span>
+    <h2 class="section-title" style="text-align:center" data-i18n="feat_title">Fait avec <em>passion</em>,<br/>servi avec fierté</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card"><span class="feature-icon">🥖</span><h3 data-i18n="f1_title">Meilleurs Bocadillos de Settat</h3><p data-i18n="f1_desc">Nos bocadillos signature sont préparés chaque jour avec notre recette secrète qui fait revenir nos clients.</p></div>
+    <div class="feature-card"><span class="feature-icon">🌿</span><h3 data-i18n="f2_title">Ingrédients Frais</h3><p data-i18n="f2_desc">Nous approvisionnons chaque jour les produits les plus frais — parce que la qualité ne se compromet jamais.</p></div>
+    <div class="feature-card"><span class="feature-icon">⚡</span><h3 data-i18n="f3_title">Service Rapide</h3><p data-i18n="f3_desc">Sur place, à emporter ou en livraison — nous nous engageons à vous servir chaud, frais et rapidement.</p></div>
+    <div class="feature-card"><span class="feature-icon">💰</span><h3 data-i18n="f4_title">Prix Abordables</h3><p data-i18n="f4_desc">Une cuisine de qualité à des prix accessibles à tous. Le bon goût ne devrait pas coûter une fortune.</p></div>
+  </div>
+</section>
+
+<section id="popular">
+  <div class="popular-header">
+    <div>
+      <span class="section-tag" data-i18n="pop_tag">Favoris des Clients</span>
+      <h2 class="section-title" data-i18n="pop_title">Nos plats <em>préférés</em></h2>
+    </div>
+    <a href="menu.html" class="btn-primary" data-i18n="pop_viewmenu">Voir le Menu Complet →</a>
+  </div>
+  <div class="popular-grid">
+    <div class="food-card">
+      <div class="food-img"><img src="https://images.unsplash.com/photo-1553909489-cd47e0907980?w=600&q=80" alt="Bocadillo"/><span class="food-badge" data-i18n="badge_sig">⭐ Signature</span></div>
+      <div class="food-info"><h3>Bocadillo All Day</h3><p data-i18n="food1_desc">Notre création phare — garnie de saveurs, légumes frais et sauce maison. Le plat à absolument essayer.</p><div class="food-footer"><span class="food-price" data-i18n="from22">À partir de 22 DH</span><a href="menu.html" class="food-btn" data-i18n="order_now">Commander</a></div></div>
+    </div>
+    <div class="food-card">
+      <div class="food-img"><img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80" alt="Tacos"/><span class="food-badge" data-i18n="badge_hot">🔥 Populaire</span></div>
+      <div class="food-info"><h3>Tacos All Day</h3><p data-i18n="food2_desc">Une expérience de saveurs complète — croustillant, savoureux et bien garni. Avec ou sans frites.</p><div class="food-footer"><span class="food-price">37 / 30 DH</span><a href="menu.html" class="food-btn" data-i18n="order_now">Commander</a></div></div>
+    </div>
+    <div class="food-card">
+      <div class="food-img"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80" alt="Burger"/><span class="food-badge" data-i18n="badge_classic">🍔 Classique</span></div>
+      <div class="food-info"><h3>King Crunchy Burger</h3><p data-i18n="food3_desc">Double couche croustillante, pain frais, sauce spéciale — un burger qui surprend à chaque bouchée.</p><div class="food-footer"><span class="food-price">29 DH</span><a href="menu.html" class="food-btn" data-i18n="order_now">Commander</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="location" id="location">
+  <span class="section-tag" data-i18n="loc_tag">Nous Trouver</span>
+  <h2 class="section-title" style="color:#fff" data-i18n="loc_title">Venez nous rendre visite <em>quand vous voulez</em></h2>
+  <div class="location-grid">
+    <div class="location-info">
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div class="info-text"><h4 data-i18n="loc_addr_label">Adresse</h4><p>Boulevard Hassan II 86<br/>26000 Settat, Maroc</p></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🕐</div>
+        <div class="info-text"><h4 data-i18n="loc_hours_label">Horaires</h4><p data-i18n="loc_hours_val">Ouvert toute la journée — 7j/7<br/>9h00 – 23h00</p></div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📞</div>
+        <div class="info-text">
+          <h4 data-i18n="loc_phone_label">Téléphone & WhatsApp</h4>
+          <a href="tel:0633635000" style="display:block">📞 0633635000</a>
+          <a href="https://wa.me/212633635000" target="_blank" class="wa-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📸</div>
+        <div class="info-text"><h4>Instagram</h4><a href="https://www.instagram.com/allday_coffee_restaurant" target="_blank">@allday_coffee_restaurant</a></div>
+      </div>
+    </div>
+    <div class="map-wrap">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13493.876!2d-7.6166!3d33.0023!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7b0f5e8b!2sSettat%2C+Morocco!5e0!3m2!1sfr!2sma!4v1" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="reservation" id="reservation">
+  <div class="res-wrap">
+    <div class="res-left">
+      <span class="section-tag" data-i18n="res_tag">Réserver une Table</span>
+      <h2 class="section-title" data-i18n="res_title">Réservez votre <em>place</em> dès maintenant</h2>
+      <p class="section-sub" data-i18n="res_sub">Réservez en quelques secondes — sans appel téléphonique. Nous confirmerons votre table en quelques minutes.</p>
+      <div class="res-perks">
+        <div class="perk"><span class="perk-dot"></span><span data-i18n="perk1">Réservation gratuite, annulable à tout moment</span></div>
+        <div class="perk"><span class="perk-dot"></span><span data-i18n="perk2">Idéal pour anniversaires & célébrations</span></div>
+        <div class="perk"><span class="perk-dot"></span><span data-i18n="perk3">Arrangements spéciaux disponibles</span></div>
+        <div class="perk"><span class="perk-dot"></span><span data-i18n="perk4">Confirmation rapide via WhatsApp</span></div>
+      </div>
+    </div>
+    <div class="res-form">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;margin-bottom:1.8rem;color:var(--dark)" data-i18n="res_form_title">Réserver Votre Table</h3>
+      <form id="reservationForm" action="https://formspree.io/f/xbdpzknp" method="POST">
+        <div class="form-row">
+          <div class="form-group"><label data-i18n="form_name">Nom Complet</label><input type="text" name="name" data-i18n-ph="ph_name" placeholder="Votre nom" required/></div>
+          <div class="form-group"><label data-i18n="form_phone">Téléphone</label><input type="tel" name="phone" placeholder="0633635000" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label data-i18n="form_date">Date</label><input type="date" name="date" required/></div>
+          <div class="form-group"><label data-i18n="form_time">Heure</label><input type="time" name="time" required/></div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_occasion">Occasion</label>
+          <select name="occasion">
+            <option value="" data-i18n="occ_select">Choisir une occasion</option>
+            <option value="Anniversaire" data-i18n="occ_bday">🎂 Anniversaire</option>
+            <option value="Amis" data-i18n="occ_friends">👫 Soirée entre amis</option>
+            <option value="Famille" data-i18n="occ_family">👨‍👩‍👧 Repas en famille</option>
+            <option value="Professionnel" data-i18n="occ_biz">💼 Déjeuner professionnel</option>
+            <option value="Autre" data-i18n="occ_other">✨ Autre</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit" data-i18n="res_btn">Réserver Votre Table →</button>
+        <p class="form-msg" id="formMsg"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">All Day <span>Cafe</span></div>
+    <div class="footer-links">
+      <a href="#home" data-i18n="nav_home">Accueil</a>
+      <a href="menu.html" data-i18n="nav_menu">Menu</a>
+      <a href="#location" data-i18n="nav_findus">Nous Trouver</a>
+      <a href="#reservation" data-i18n="nav_reserve">Réserver</a>
+      <a href="https://www.instagram.com/allday_coffee_restaurant" target="_blank">Instagram</a>
+      <a href="tel:0633635000">0633635000</a>
+    </div>
+  </div>
+  <p class="footer-bottom">© 2025 All Day Cafe & Restaurant — Boulevard Hassan II 86, Settat, Maroc</p>
+</footer>
+
+<script>
+const T = {
+  fr:{
+    nav_about:'À Propos',nav_menu:'Menu',nav_findus:'Nous Trouver',nav_reserve:'Réserver',nav_order:'Commander',nav_home:'Accueil',
+    hero_badge:'🏅 Meilleurs Bocadillos de Settat',
+    hero_sub:'Saveurs fraîches, ambiance chaleureuse et les bocadillos les plus appréciés de Settat — ouverts toute la journée pour vous.',
+    hero_cta1:'🍽️ Voir le Menu',hero_cta2:'Réserver une Table',scroll:'défiler',
+    feat_tag:'Pourquoi Nous Choisir',feat_title:'Fait avec <em>passion</em>,<br/>servi avec fierté',
+    f1_title:'Meilleurs Bocadillos de Settat',f1_desc:'Nos bocadillos signature sont préparés chaque jour avec notre recette secrète qui fait revenir nos clients.',
+    f2_title:'Ingrédients Frais',f2_desc:'Nous approvisionnons chaque jour les produits les plus frais — parce que la qualité ne se compromet jamais.',
+    f3_title:'Service Rapide',f3_desc:'Sur place, à emporter ou en livraison — nous nous engageons à vous servir chaud, frais et rapidement.',
+    f4_title:'Prix Abordables',f4_desc:'Une cuisine de qualité à des prix accessibles à tous. Le bon goût ne devrait pas coûter une fortune.',
+    pop_tag:'Favoris des Clients',pop_title:'Nos plats <em>préférés</em>',pop_viewmenu:'Voir le Menu Complet →',
+    badge_sig:'⭐ Signature',badge_hot:'🔥 Populaire',badge_classic:'🍔 Classique',
+    food1_desc:'Notre création phare — garnie de saveurs, légumes frais et sauce maison. Le plat à absolument essayer.',
+    food2_desc:'Une expérience de saveurs complète — croustillant, savoureux et bien garni. Avec ou sans frites.',
+    food3_desc:'Double couche croustillante, pain frais, sauce spéciale — un burger qui surprend à chaque bouchée.',
+    from22:'À partir de 22 DH',order_now:'Commander',
+    loc_tag:'Nous Trouver',loc_title:'Venez nous rendre visite <em>quand vous voulez</em>',
+    loc_addr_label:'Adresse',loc_hours_label:'Horaires',loc_hours_val:'Ouvert toute la journée — 7j/7<br/>9h00 – 23h00',loc_phone_label:'Téléphone & WhatsApp',
+    res_tag:'Réserver une Table',res_title:'Réservez votre <em>place</em> dès maintenant',
+    res_sub:'Réservez en quelques secondes — sans appel téléphonique. Nous confirmerons votre table en quelques minutes.',
+    perk1:'Réservation gratuite, annulable à tout moment',perk2:'Idéal pour anniversaires & célébrations',
+    perk3:'Arrangements spéciaux disponibles',perk4:'Confirmation rapide via WhatsApp',
+    res_form_title:'Réserver Votre Table',form_name:'Nom Complet',form_phone:'Téléphone',form_date:'Date',form_time:'Heure',form_occasion:'Occasion',
+    occ_select:'Choisir une occasion',occ_bday:'🎂 Anniversaire',occ_friends:'👫 Soirée entre amis',occ_family:'👨‍👩‍👧 Repas en famille',occ_biz:'💼 Déjeuner professionnel',occ_other:'✨ Autre',
+    res_btn:'Réserver Votre Table →',
+    form_success:'✅ Table réservée ! Nous confirmerons via WhatsApp sous peu.',form_error:'❌ Une erreur est survenue. Appelez-nous directement.',ph_name:'Votre nom'
+  },
+  en:{
+    nav_about:'About',nav_menu:'Menu',nav_findus:'Find Us',nav_reserve:'Reserve',nav_order:'Order Now',nav_home:'Home',
+    hero_badge:'🏅 Best Bocadillos in Settat',
+    hero_sub:'Fresh flavors, warm atmosphere, and the most loved bocadillos in Settat — open all day for you.',
+    hero_cta1:'🍽️ View Menu',hero_cta2:'Reserve a Table',scroll:'scroll',
+    feat_tag:'Why Choose Us',feat_title:'Made with <em>passion</em>,<br/>served with pride',
+    f1_title:'Best Bocadillos in Settat',f1_desc:'Our signature bocadillos are crafted fresh every day using our secret recipe that customers keep coming back for.',
+    f2_title:'Fresh Ingredients',f2_desc:'We source the freshest produce and premium ingredients daily — quality is something we never compromise on.',
+    f3_title:'Fast Service',f3_desc:'Dine-in, takeaway or delivery — we are committed to getting your order to you hot, fresh and fast.',
+    f4_title:'Affordable Prices',f4_desc:'Restaurant-quality food at prices that make sense for everyone. Great taste should not cost a fortune.',
+    pop_tag:'Customer Favorites',pop_title:'Our most <em>loved</em> dishes',pop_viewmenu:'See Full Menu →',
+    badge_sig:'⭐ Signature',badge_hot:'🔥 Hot Pick',badge_classic:'🍔 Classic',
+    food1_desc:'Our famous creation — packed with flavors, fresh veggies, and our house sauce. The must-try item.',
+    food2_desc:'A full flavor experience — crispy, savory, and loaded. Available with or without fries.',
+    food3_desc:'Double-layered crunch, fresh bun, our special sauce — a burger that hits different every time.',
+    from22:'From 22 DH',order_now:'Order Now',
+    loc_tag:'Find Us',loc_title:'Come visit us <em>anytime</em>',
+    loc_addr_label:'Address',loc_hours_label:'Opening Hours',loc_hours_val:'Open All Day — Every Day<br/>9:00 AM – 11:00 PM',loc_phone_label:'Phone & WhatsApp',
+    res_tag:'Reserve a Table',res_title:'Book your <em>spot</em> today',
+    res_sub:'Reserve in seconds — no phone calls needed. We will confirm your table within minutes.',
+    perk1:'Free reservation, cancel anytime',perk2:'Perfect for birthdays & celebrations',
+    perk3:'Special arrangements available',perk4:'Fast confirmation via WhatsApp',
+    res_form_title:'Reserve Your Table',form_name:'Full Name',form_phone:'Phone Number',form_date:'Date',form_time:'Time',form_occasion:'Occasion',
+    occ_select:'Select occasion',occ_bday:'🎂 Birthday',occ_friends:'👫 Friends Gathering',occ_family:'👨‍👩‍👧 Family Dinner',occ_biz:'💼 Business Lunch',occ_other:'✨ Other',
+    res_btn:'Reserve Your Table →',
+    form_success:'✅ Table reserved! We will confirm via WhatsApp shortly.',form_error:'❌ Something went wrong. Please call us directly.',ph_name:'Your name'
+  }
+};
+
+let lang = 'fr';
+
+function applyLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (T[l][k] !== undefined) el.innerHTML = T[l][k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const k = el.getAttribute('data-i18n-ph');
+    if (T[l][k] !== undefined) el.placeholder = T[l][k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLang(btn.dataset.lang)));
+
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+document.getElementById('hamburger').addEventListener('click', () => navbar.classList.toggle('open'));
+
+const form = document.getElementById('reservationForm');
+const msg = document.getElementById('formMsg');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = form.querySelector('button[type=submit]');
+  btn.textContent = lang === 'fr' ? 'Envoi...' : 'Sending...';
+  btn.disabled = true;
+  try {
+    const res = await fetch(form.action, {method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});
+    if (res.ok) { msg.textContent = T[lang].form_success; msg.className = 'form-msg success'; form.reset(); }
+    else throw new Error();
+  } catch { msg.textContent = T[lang].form_error; msg.className = 'form-msg error'; }
+  btn.innerHTML = T[lang].res_btn;
+  btn.disabled = false;
+});
+
+const di = form.querySelector('input[type="date"]');
+if (di) di.min = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>

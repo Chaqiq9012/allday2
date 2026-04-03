@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Menu — All Day Cafe & Restaurant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--dark:#171111;--gold:#e1a341;--gold-light:#f0bc64;--gold-dim:rgba(225,163,65,.15);--white:#fff;--off-white:#faf8f5;--gray:#888;--text:#2a1f1f;--border:#ece5db}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;background:var(--dark);display:flex;align-items:center;justify-content:space-between;padding:0 5%;box-shadow:0 2px 20px rgba(0,0,0,.4);gap:.8rem}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--white);text-decoration:none;flex-shrink:0}
+.nav-logo span{color:var(--gold)}
+.nav-back{color:rgba(255,255,255,.7);font-size:.88rem;text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:color .2s;flex-shrink:0;white-space:nowrap}
+.nav-back:hover{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:.8rem;flex-shrink:0}
+.lang-switch{display:flex;align-items:center;gap:.3rem}
+.lang-btn{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.65);padding:.28rem .65rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;letter-spacing:.06em;transition:all .2s}
+.lang-btn.active{background:var(--gold);border-color:var(--gold);color:var(--dark)}
+.lang-btn:not(.active):hover{border-color:rgba(255,255,255,.7);color:var(--white)}
+.cart-btn{background:var(--gold);color:var(--dark);border:none;padding:.55rem 1.2rem;border-radius:50px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:.5rem;transition:all .2s;white-space:nowrap}
+.cart-btn:hover{background:var(--gold-light)}
+.cart-count{background:var(--dark);color:var(--white);width:20px;height:20px;border-radius:50%;font-size:.75rem;display:flex;align-items:center;justify-content:center;font-weight:700}
+.menu-hero{height:240px;background:linear-gradient(135deg,rgba(23,17,17,.9),rgba(23,17,17,.6)),url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1400&q=80') center/cover;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 5%;margin-top:68px}
+.menu-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;color:var(--white)}
+.menu-hero h1 em{color:var(--gold);font-style:normal}
+.menu-hero p{color:rgba(255,255,255,.65);font-size:.95rem;margin-top:.6rem}
+.cat-nav{position:sticky;top:68px;z-index:100;background:var(--white);border-bottom:1px solid var(--border);overflow-x:auto;white-space:nowrap;padding:.8rem 5%;display:flex;gap:.6rem;scrollbar-width:none}
+.cat-nav::-webkit-scrollbar{display:none}
+.cat-btn{display:inline-block;padding:.45rem 1rem;border-radius:50px;border:1.5px solid var(--border);font-size:.82rem;font-weight:600;color:var(--gray);background:transparent;cursor:pointer;transition:all .2s;white-space:nowrap}
+.cat-btn:hover,.cat-btn.active{background:var(--dark);color:var(--white);border-color:var(--dark)}
+.menu-layout{display:grid;grid-template-columns:1fr 340px;gap:0;min-height:calc(100vh - 68px)}
+.menu-main{padding:2.5rem 4% 4rem 5%}
+.sidebar{position:sticky;top:calc(68px + 54px);height:calc(100vh - 122px);overflow-y:auto;border-left:1px solid var(--border);padding:1.5rem;background:var(--off-white)}
+.cat-section{margin-bottom:3.5rem;scroll-margin-top:140px}
+.cat-banner{height:130px;border-radius:18px;overflow:hidden;margin-bottom:1.5rem;position:relative}
+.cat-banner img{width:100%;height:100%;object-fit:cover}
+.cat-banner-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(23,17,17,.75),rgba(23,17,17,.1));display:flex;align-items:center;padding:0 2rem}
+.cat-banner-overlay h2{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;color:var(--white)}
+.cat-banner-overlay h2 em{color:var(--gold);font-style:normal}
+.cat-subtitle{font-size:.8rem;color:rgba(255,255,255,.6);font-weight:400;display:block;margin-top:.1rem}
+.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.item-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;transition:all .25s}
+.item-card:hover{box-shadow:0 6px 25px rgba(0,0,0,.1);transform:translateY(-3px);border-color:transparent}
+.item-img{height:140px;overflow:hidden;background:#f0ebe3}
+.item-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.item-card:hover .item-img img{transform:scale(1.07)}
+.item-body{padding:1rem}
+.item-name{font-weight:600;font-size:.92rem;margin-bottom:.2rem;color:var(--dark)}
+.item-prices{display:flex;gap:.4rem;flex-wrap:wrap;margin:.4rem 0 .8rem}
+.price-tag{font-size:.78rem;color:var(--gray);background:var(--off-white);padding:.2rem .55rem;border-radius:6px}
+.price-tag strong{color:var(--gold);font-weight:700}
+.add-btn{width:100%;padding:.55rem;background:var(--dark);color:var(--white);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.add-btn:hover{background:var(--gold);color:var(--dark)}
+.add-btn.added{background:var(--gold);color:var(--dark)}
+.sidebar h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--dark);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.cart-empty{text-align:center;color:var(--gray);font-size:.9rem;padding:2rem 1rem;display:flex;flex-direction:column;align-items:center;gap:.7rem}
+.cart-empty .empty-icon{font-size:2.5rem}
+.cart-items-list{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.2rem}
+.cart-item{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-name{font-size:.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cart-item-extras{font-size:.72rem;color:var(--gray);margin-top:.1rem}
+.cart-item-price{font-size:.88rem;font-weight:700;color:var(--gold);flex-shrink:0}
+.cart-item-qty{display:flex;align-items:center;gap:.4rem}
+.qty-btn{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.qty-btn:hover{background:var(--dark);color:var(--white);border-color:var(--dark)}
+.qty-num{font-size:.85rem;font-weight:600;min-width:16px;text-align:center}
+.cart-summary{background:var(--white);border-radius:14px;padding:1rem;border:1px solid var(--border);margin-bottom:1rem}
+.summary-row{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.5rem;color:var(--gray)}
+.summary-row.total{font-weight:700;font-size:1rem;color:var(--dark);border-top:1px solid var(--border);padding-top:.6rem;margin-top:.4rem}
+.summary-row.total span:last-child{color:var(--gold)}
+.order-wa-btn{width:100%;padding:.9rem;background:#25D366;color:var(--white);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;margin-bottom:.7rem}
+.order-wa-btn:hover{background:#1ebe5d;transform:translateY(-2px)}
+.order-wa-btn:disabled{background:#ccc;cursor:not-allowed;transform:none}
+.order-form-toggle{width:100%;padding:.7rem;background:transparent;border:1.5px solid var(--dark);border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;color:var(--dark);transition:all .2s}
+.order-form-toggle:hover{background:var(--dark);color:var(--white)}
+.order-form-wrap{margin-top:1rem;display:none}
+.order-form-wrap.open{display:block}
+.order-form-wrap input{width:100%;padding:.7rem .9rem;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.88rem;background:var(--white);margin-bottom:.7rem;outline:none;transition:border .2s}
+.order-form-wrap input:focus{border-color:var(--gold)}
+.order-form-wrap label{font-size:.75rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--dark);display:block;margin-bottom:.3rem}
+.submit-order-btn{width:100%;padding:.75rem;background:var(--dark);color:var(--white);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;transition:all .2s}
+.submit-order-btn:hover{background:var(--gold);color:var(--dark)}
+.modal-overlay{position:fixed;inset:0;background:rgba(23,17,17,.6);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);border-radius:24px;padding:2rem;width:100%;max-width:420px;transform:translateY(20px);transition:transform .3s;max-height:90vh;overflow-y:auto}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;margin-bottom:.3rem}
+.modal .added-item{font-size:.88rem;color:var(--gray);margin-bottom:1.3rem}
+.modal .added-item strong{color:var(--dark)}
+.extras-list{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.5rem}
+.extra-item{display:flex;align-items:center;gap:.8rem;padding:.9rem 1rem;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s}
+.extra-item:hover,.extra-item.selected{border-color:var(--gold);background:var(--gold-dim)}
+.extra-item input[type=checkbox]{accent-color:var(--gold);width:16px;height:16px}
+.extra-label{flex:1;font-size:.9rem;font-weight:500}
+.extra-price{font-size:.85rem;font-weight:700;color:var(--gold)}
+.modal-btns{display:flex;gap:.8rem}
+.modal-btn-skip{flex:1;padding:.75rem;background:var(--off-white);border:1.5px solid var(--border);border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;transition:all .2s}
+.modal-btn-add{flex:2;padding:.75rem;background:var(--dark);color:var(--white);border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;transition:all .2s}
+.modal-btn-add:hover{background:var(--gold);color:var(--dark)}
+@media(max-width:900px){.menu-layout{grid-template-columns:1fr}.sidebar{position:fixed;bottom:0;left:0;right:0;height:auto;max-height:85vh;top:auto;border-left:none;border-top:2px solid var(--gold);border-radius:20px 20px 0 0;transform:translateY(100%);transition:transform .35s;z-index:150;box-shadow:0 -8px 40px rgba(0,0,0,.18)}.sidebar.open{transform:translateY(0)}.sidebar-toggle{display:flex}.menu-main{padding:1.5rem 4% 5rem}}
+@media(min-width:901px){.sidebar-toggle{display:none}}
+.sidebar-toggle{position:fixed;bottom:1.5rem;right:1.5rem;z-index:160;background:var(--gold);color:var(--dark);border:none;border-radius:50px;padding:.8rem 1.4rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;box-shadow:0 4px 20px rgba(225,163,65,.5);display:none;align-items:center;gap:.5rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-back" data-i18n="nav_back">← Retour</a>
+  <a href="index.html" class="nav-logo">All Day <span>Cafe</span></a>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <button class="cart-btn" id="cartToggle" onclick="toggleSidebar()">
+      🛒 <span data-i18n="cart_label">Panier</span> <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<div class="menu-hero">
+  <h1 data-i18n="hero_title">Notre Menu <em>Complet</em></h1>
+  <p data-i18n="hero_sub">Frais, délicieux et préparé à la commande — Commandez via WhatsApp en quelques secondes</p>
+</div>
+
+<div class="cat-nav" id="catNav">
+  <button class="cat-btn active" data-target="tacos">Tacos</button>
+  <button class="cat-btn" data-target="potchi">Potchi</button>
+  <button class="cat-btn" data-target="kumpir">Kumpir</button>
+  <button class="cat-btn" data-target="plats" data-i18n-cat="cat_plats">Les Plats</button>
+  <button class="cat-btn" data-target="salades" data-i18n-cat="cat_salades">Salades</button>
+  <button class="cat-btn" data-target="entrees" data-i18n-cat="cat_entrees">Entrées</button>
+  <button class="cat-btn" data-target="pasticcio">Pasticcio</button>
+  <button class="cat-btn" data-target="bocadillos">Bocadillos</button>
+  <button class="cat-btn" data-target="burgers">Burgers</button>
+  <button class="cat-btn" data-target="pizza">Pizza</button>
+  <button class="cat-btn" data-target="drinks" data-i18n-cat="cat_drinks">Boissons</button>
+  <button class="cat-btn" data-target="extras">Extras</button>
+</div>
+
+<div class="menu-layout">
+  <main class="menu-main" id="menuMain">
+    <div class="cat-section" id="tacos">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=900&q=80" alt="Tacos"/>
+        <div class="cat-banner-overlay"><div><h2>Tacos <em>Maison</em><span class="cat-subtitle" data-i18n="sub_frites">Avec Frites / Sans Frites</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="tacos-grid"></div>
+    </div>
+    <div class="cat-section" id="potchi">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1553909489-cd47e0907980?w=900&q=80" alt="Potchi"/>
+        <div class="cat-banner-overlay"><div><h2>Potchi <em>Sandwichs</em><span class="cat-subtitle" data-i18n="sub_frites">Avec Frites / Sans Frites</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="potchi-grid"></div>
+    </div>
+    <div class="cat-section" id="kumpir">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?w=900&q=80" alt="Kumpir"/>
+        <div class="cat-banner-overlay"><div><h2><em>Kumpir</em> Spécial<span class="cat-subtitle" data-i18n="sub_kumpir">Pomme de terre farcie</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="kumpir-grid"></div>
+    </div>
+    <div class="cat-section" id="plats">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c7?w=900&q=80" alt="Les Plats"/>
+        <div class="cat-banner-overlay"><div><h2>Les <em>Plats</em><span class="cat-subtitle" data-i18n="sub_plats">Plats Principaux</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="plats-grid"></div>
+    </div>
+    <div class="cat-section" id="salades">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=900&q=80" alt="Salades"/>
+        <div class="cat-banner-overlay"><div><h2>Salades <em>Fraîches</em><span class="cat-subtitle" data-i18n="sub_salades">Légères & Rafraîchissantes</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="salades-grid"></div>
+    </div>
+    <div class="cat-section" id="entrees">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1562967914-608f82629710?w=900&q=80" alt="Entrées"/>
+        <div class="cat-banner-overlay"><div><h2>Entrées <em>&amp; Starters</em><span class="cat-subtitle" data-i18n="sub_entrees">Portions S / M / L</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="entrees-grid"></div>
+    </div>
+    <div class="cat-section" id="pasticcio">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=900&q=80" alt="Pasticcio"/>
+        <div class="cat-banner-overlay"><div><h2><em>Pasticcio</em><span class="cat-subtitle" data-i18n="sub_pasticcio">Pâtes gratinées</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="pasticcio-grid"></div>
+    </div>
+    <div class="cat-section" id="bocadillos">
+      <div class="cat-banner" style="height:160px"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80" alt="Bocadillos"/>
+        <div class="cat-banner-overlay"><div><h2>⭐ Bocadillos <em>All Day</em></h2><div style="color:var(--gold);font-size:.82rem;margin-top:.2rem" data-i18n="bocadillo_sub">Notre Signature — Les Meilleurs de Settat</div></div></div>
+      </div>
+      <div class="items-grid" id="bocadillos-grid"></div>
+    </div>
+    <div class="cat-section" id="burgers">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&q=80" alt="Burgers"/>
+        <div class="cat-banner-overlay"><div><h2>Burgers <em>Maison</em><span class="cat-subtitle" data-i18n="sub_burgers">Préparés à la commande</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="burgers-grid"></div>
+    </div>
+    <div class="cat-section" id="pizza">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=900&q=80" alt="Pizza"/>
+        <div class="cat-banner-overlay"><div><h2><em>Pizzas</em> Artisanales<span class="cat-subtitle" data-i18n="sub_pizza">Medium / Large</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="pizza-grid"></div>
+    </div>
+    <div class="cat-section" id="drinks">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=900&q=80" alt="Drinks"/>
+        <div class="cat-banner-overlay"><div><h2>Boissons <em>&amp; Drinks</em><span class="cat-subtitle" data-i18n="sub_drinks">Jus, Sodas & Plus</span></h2></div></div>
+      </div>
+      <div class="items-grid" id="drinks-grid"></div>
+    </div>
+    <div class="cat-section" id="extras">
+      <div class="cat-banner"><img src="https://images.unsplash.com/photo-1550507992-eb63ffee0847?w=900&q=80" alt="Extras"/>
+        <div class="cat-banner-overlay"><div><h2>Extras <em>&amp; Add-ons</em></h2></div></div>
+      </div>
+      <div class="items-grid" id="extras-grid"></div>
+    </div>
+  </main>
+
+  <aside class="sidebar" id="sidebar">
+    <h3 data-i18n="cart_title">🛒 Votre Commande</h3>
+    <div id="cartContent">
+      <div class="cart-empty" id="cartEmpty">
+        <span class="empty-icon">🍽️</span>
+        <p data-i18n="cart_empty1">Votre panier est vide</p>
+        <p style="font-size:.8rem" data-i18n="cart_empty2">Ajoutez des articles du menu pour commencer</p>
+      </div>
+      <div class="cart-items-list" id="cartItemsList" style="display:none"></div>
+      <div class="cart-summary" id="cartSummary" style="display:none">
+        <div class="summary-row"><span data-i18n="subtotal">Sous-total</span><span id="subtotalAmt">0 DH</span></div>
+        <div class="summary-row total"><span data-i18n="total">Total</span><span id="totalAmt">0 DH</span></div>
+      </div>
+      <button class="order-wa-btn" id="waOrderBtn" disabled onclick="orderViaWhatsApp()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        <span data-i18n="wa_btn">Commander via WhatsApp</span>
+      </button>
+      <button class="order-form-toggle" onclick="toggleOrderForm()" data-i18n="form_btn">📋 Formulaire de commande</button>
+      <div class="order-form-wrap" id="orderFormWrap">
+        <form id="orderFormEl" style="margin-top:1rem">
+          <label data-i18n="of_name">Nom Complet</label>
+          <input type="text" id="of-name" data-i18n-ph="ph_name" placeholder="Votre nom" required/>
+          <label data-i18n="of_phone">Téléphone</label>
+          <input type="tel" id="of-phone" placeholder="0633635000" required/>
+          <label data-i18n="of_address">Adresse de livraison</label>
+          <input type="text" id="of-address" data-i18n-ph="ph_address" placeholder="Votre adresse à Settat" required/>
+          <button type="submit" class="submit-order-btn" data-i18n="of_submit">Envoyer la Commande →</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+  🛒 <span data-i18n="cart_label">Panier</span> <span id="mobileBadge" style="background:var(--dark);color:var(--white);padding:.1rem .5rem;border-radius:50px;font-size:.8rem">0</span>
+</button>
+
+<div class="modal-overlay" id="upsellModal">
+  <div class="modal">
+    <h3 data-i18n="upsell_title">Envie d'un extra ? 🔥</h3>
+    <p class="added-item" data-i18n="upsell_sub">Vous avez ajouté <strong id="addedItemName"></strong></p>
+    <div class="extras-list" id="extrasList"></div>
+    <div class="modal-btns">
+      <button class="modal-btn-skip" onclick="skipExtras()" data-i18n="upsell_skip">Non merci</button>
+      <button class="modal-btn-add" onclick="confirmExtras()" data-i18n="upsell_add">Ajouter les extras →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== TRANSLATIONS =====
+const T = {
+  fr:{
+    nav_back:'← Retour',cart_label:'Panier',
+    hero_title:'Notre Menu <em>Complet</em>',hero_sub:'Frais, délicieux et préparé à la commande — Commandez via WhatsApp en quelques secondes',
+    cat_plats:'Les Plats',cat_salades:'Salades',cat_entrees:'Entrées',cat_drinks:'Boissons',
+    sub_frites:'Avec Frites / Sans Frites',sub_kumpir:'Pomme de terre farcie',sub_plats:'Plats Principaux',
+    sub_salades:'Légères & Rafraîchissantes',sub_entrees:'Portions S / M / L',sub_pasticcio:'Pâtes gratinées',
+    bocadillo_sub:'Notre Signature — Les Meilleurs de Settat',sub_burgers:'Préparés à la commande',
+    sub_pizza:'Medium / Large',sub_drinks:'Jus, Sodas & Plus',
+    cart_title:'🛒 Votre Commande',cart_empty1:'Votre panier est vide',cart_empty2:'Ajoutez des articles du menu pour commencer',
+    subtotal:'Sous-total',total:'Total',wa_btn:'Commander via WhatsApp',form_btn:'📋 Formulaire de commande',
+    of_name:'Nom Complet',of_phone:'Téléphone',of_address:'Adresse de livraison',of_submit:'Envoyer la Commande →',
+    ph_name:'Votre nom',ph_address:'Votre adresse à Settat',
+    upsell_title:'Envie d\'un extra ? 🔥',upsell_sub:'Vous avez ajouté',upsell_skip:'Non merci',upsell_add:'Ajouter les extras →',
+    add_to_cart:'+ Ajouter',wa_header:'🍽️ *Nouvelle Commande — All Day Cafe*',wa_total:'*Total:',
+  },
+  en:{
+    nav_back:'← Back',cart_label:'Cart',
+    hero_title:'Our Full <em>Menu</em>',hero_sub:'Fresh, delicious & made to order — Order via WhatsApp in seconds',
+    cat_plats:'Main Courses',cat_salades:'Salads',cat_entrees:'Starters',cat_drinks:'Drinks',
+    sub_frites:'With Fries / Without Fries',sub_kumpir:'Stuffed Baked Potato',sub_plats:'Full Main Courses',
+    sub_salades:'Light & Refreshing',sub_entrees:'S / M / L portions',sub_pasticcio:'Baked Pasta',
+    bocadillo_sub:'Our Signature — Best in Settat',sub_burgers:'Hand-crafted Patties',
+    sub_pizza:'Medium / Large',sub_drinks:'Juices, Sodas & More',
+    cart_title:'🛒 Your Order',cart_empty1:'Your cart is empty',cart_empty2:'Add items from the menu to start your order',
+    subtotal:'Subtotal',total:'Total',wa_btn:'Order via WhatsApp',form_btn:'📋 Submit Order Form',
+    of_name:'Full Name',of_phone:'Phone Number',of_address:'Delivery Address',of_submit:'Submit Order →',
+    ph_name:'Your name',ph_address:'Your address in Settat',
+    upsell_title:'Want to upgrade? 🔥',upsell_sub:'You added',upsell_skip:'No thanks',upsell_add:'Add extras →',
+    add_to_cart:'+ Add',wa_header:'🍽️ *New Order — All Day Cafe*',wa_total:'*Total:',
+  }
+};
+
+let lang = 'fr';
+
+function applyLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (T[l][k] !== undefined) el.innerHTML = T[l][k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const k = el.getAttribute('data-i18n-ph');
+    if (T[l][k] !== undefined) el.placeholder = T[l][k];
+  });
+  document.querySelectorAll('[data-i18n-cat]').forEach(el => {
+    const k = el.getAttribute('data-i18n-cat');
+    if (T[l][k] !== undefined) el.textContent = T[l][k];
+  });
+  // Update all add buttons
+  document.querySelectorAll('.add-btn:not(.added)').forEach(btn => {
+    if (!btn.textContent.includes('✓')) btn.textContent = T[l].add_to_cart;
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => applyLang(btn.dataset.lang)));
+
+// ===== MENU DATA =====
+const MENU = {
+  tacos:{img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=70',items:[
+    {name:'Tacos Nuggets',prices:[{label:'Avec Frites',price:35},{label:'Sans Frites',price:28}]},
+    {name:'Tacos Cordon Bleu',prices:[{label:'Avec Frites',price:35},{label:'Sans Frites',price:28}]},
+    {name:'Tacos Poulet',prices:[{label:'Avec Frites',price:35},{label:'Sans Frites',price:28}]},
+    {name:'Tacos Viande Hachée',prices:[{label:'Avec Frites',price:37},{label:'Sans Frites',price:30}]},
+    {name:'Tacos All Day',prices:[{label:'Avec Frites',price:37},{label:'Sans Frites',price:30}]},
+  ]},
+  potchi:{img:'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=400&q=70',items:[
+    {name:'Potchi Thon',prices:[{label:'Avec Frites',price:22},{label:'Sans Frites',price:16}]},
+    {name:'Potchi Jambon',prices:[{label:'Avec Frites',price:22},{label:'Sans Frites',price:16}]},
+    {name:'Potchi Merguez',prices:[{label:'Avec Frites',price:26},{label:'Sans Frites',price:19}]},
+    {name:'Potchi Poulet',prices:[{label:'Avec Frites',price:26},{label:'Sans Frites',price:19}]},
+    {name:'Potchi Viande Hachée',prices:[{label:'Avec Frites',price:28},{label:'Sans Frites',price:21}]},
+    {name:'Potchi All Day',prices:[{label:'Avec Frites',price:28},{label:'Sans Frites',price:21}]},
+  ]},
+  kumpir:{img:'https://images.unsplash.com/photo-1576107232684-1279f390859f?w=400&q=70',items:[
+    {name:'Kumpir Thon',prices:[{label:'Prix',price:30}]},
+    {name:'Kumpir Crinky',prices:[{label:'Prix',price:35}]},
+    {name:'Kumpir Végétarien',prices:[{label:'Prix',price:30}]},
+    {name:'Kumpir Viande Fumée',prices:[{label:'Prix',price:35}]},
+    {name:'Kumpir Viande Hachée',prices:[{label:'Prix',price:35}]},
+  ]},
+  plats:{img:'https://images.unsplash.com/photo-1598103442097-8b74394b95c7?w=400&q=70',items:[
+    {name:'Escalope de Poulet',prices:[{label:'Prix',price:48}]},
+    {name:'Chicken Fingers',prices:[{label:'Prix',price:49}]},
+    {name:'Mix',prices:[{label:'Prix',price:59}]},
+  ]},
+  salades:{img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=70',items:[
+    {name:'Salade Variée',prices:[{label:'Prix',price:25}]},
+    {name:'Salade All Day',prices:[{label:'Prix',price:27}]},
+    {name:'Salade Fruits',prices:[{label:'Prix',price:25}]},
+  ]},
+  entrees:{img:'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&q=70',items:[
+    {name:'Chicken Fingers',prices:[{label:'S',price:21},{label:'M',price:40},{label:'L',price:50}]},
+    {name:'Ailes de Poulet',prices:[{label:'S',price:10},{label:'M',price:20},{label:'L',price:30}]},
+    {name:'Crispy Bowl',prices:[{label:'Prix',price:25}]},
+  ]},
+  pasticcio:{img:'https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400&q=70',items:[
+    {name:'Pasticcio Normal',prices:[{label:'Prix',price:28}]},
+    {name:'Pasticcio Merguez',prices:[{label:'Prix',price:30}]},
+    {name:'Pasticcio Poulet',prices:[{label:'Prix',price:30}]},
+    {name:'Pasticcio Viande Hachée',prices:[{label:'Prix',price:32}]},
+    {name:'Pasticcio All Day',prices:[{label:'Prix',price:39}]},
+  ]},
+  bocadillos:{img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=70',items:[
+    {name:'Bocadillo Thon',prices:[{label:'Prix',price:18}]},
+    {name:'Bocadillo Jambon',prices:[{label:'Prix',price:18}]},
+    {name:'Bocadillo Merguez',prices:[{label:'Prix',price:20}]},
+    {name:'Bocadillo Poulet',prices:[{label:'Prix',price:22}]},
+    {name:'Bocadillo Viande Hachée',prices:[{label:'Prix',price:22}]},
+    {name:'Bocadillo Mixte',prices:[{label:'Prix',price:24}]},
+    {name:'Bocadillo All Day ⭐',prices:[{label:'Prix',price:26}]},
+  ]},
+  burgers:{img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=70',items:[
+    {name:'Classic Burger',prices:[{label:'Prix',price:29}]},
+    {name:'Double Burger',prices:[{label:'Prix',price:32}]},
+    {name:'Chicken BBQ',prices:[{label:'Prix',price:27}]},
+    {name:'King Crunchy',prices:[{label:'Prix',price:29}]},
+  ]},
+  pizza:{img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=70',items:[
+    {name:'Pizza Margherita',prices:[{label:'M',price:38},{label:'L',price:52}]},
+    {name:'Pizza Poulet',prices:[{label:'M',price:45},{label:'L',price:60}]},
+    {name:'Pizza Viande Hachée',prices:[{label:'M',price:45},{label:'L',price:60}]},
+    {name:'Pizza Merguez',prices:[{label:'M',price:45},{label:'L',price:60}]},
+    {name:'Pizza All Day',prices:[{label:'M',price:50},{label:'L',price:68}]},
+    {name:'Pizza 4 Fromages',prices:[{label:'M',price:45},{label:'L',price:60}]},
+  ]},
+  drinks:{img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=70',items:[
+    {name:"Jus d'Orange Pressé",prices:[{label:'Prix',price:15}]},
+    {name:"Jus d'Avocat",prices:[{label:'Prix',price:18}]},
+    {name:'Smoothie Fruits Rouges',prices:[{label:'Prix',price:20}]},
+    {name:'Coca-Cola',prices:[{label:'25cl',price:8},{label:'50cl',price:12}]},
+    {name:'Eau Minérale',prices:[{label:'50cl',price:5},{label:'1L',price:8}]},
+    {name:'Café Espresso',prices:[{label:'Prix',price:7}]},
+    {name:'Café Crème',prices:[{label:'Prix',price:12}]},
+    {name:'Thé à la Menthe',prices:[{label:'Prix',price:8}]},
+  ]},
+  extras:{img:'https://images.unsplash.com/photo-1550507992-eb63ffee0847?w=400&q=70',items:[
+    {name:'Fromage',prices:[{label:'Prix',price:3}]},
+    {name:'Jambon de Dinde',prices:[{label:'Prix',price:5}]},
+    {name:'Fromage Rouge',prices:[{label:'Prix',price:5}]},
+    {name:'Sauce',prices:[{label:'Prix',price:3}]},
+    {name:'Frites',prices:[{label:'Prix',price:7}]},
+  ]}
+};
+
+const UPSELL_EXTRAS = [
+  {id:'fromage',name:'Fromage',price:3},
+  {id:'jambon',name:'Jambon de Dinde',price:5},
+  {id:'sauce',name:'Sauce',price:3},
+  {id:'frites',name:'Frites',price:7},
+];
+
+let cart = [], pendingItem = null, selectedExtras = [];
+
+function renderMenu() {
+  Object.keys(MENU).forEach(cat => {
+    const grid = document.getElementById(cat+'-grid');
+    if (!grid) return;
+    MENU[cat].items.forEach(item => {
+      const pricesHtml = item.prices.map(p=>`<span class="price-tag">${p.label}: <strong>${p.price} DH</strong></span>`).join('');
+      const div = document.createElement('div');
+      div.className = 'item-card';
+      div.innerHTML = `
+        <div class="item-img"><img src="${MENU[cat].img}" alt="${item.name}" loading="lazy"/></div>
+        <div class="item-body">
+          <div class="item-name">${item.name}</div>
+          <div class="item-prices">${pricesHtml}</div>
+          <button class="add-btn">${T[lang].add_to_cart}</button>
+        </div>`;
+      div.querySelector('.add-btn').addEventListener('click', function(){addToCart(item.name, item.prices[0].price, this)});
+      grid.appendChild(div);
+    });
+  });
+}
+
+function addToCart(name, price, btn) {
+  pendingItem = {id:Date.now(),name,price,extras:[],qty:1};
+  document.getElementById('addedItemName').textContent = name;
+  renderExtrasModal();
+  document.getElementById('upsellModal').classList.add('open');
+  btn.textContent = '✓';
+  btn.classList.add('added');
+  setTimeout(() => { btn.textContent = T[lang].add_to_cart; btn.classList.remove('added'); }, 1500);
+}
+
+function renderExtrasModal() {
+  document.getElementById('extrasList').innerHTML = UPSELL_EXTRAS.map(e=>
+    `<label class="extra-item" id="el-${e.id}">
+      <input type="checkbox" value="${e.id}" onchange="toggleExtra('${e.id}')"/>
+      <span class="extra-label">${e.name}</span>
+      <span class="extra-price">+${e.price} DH</span>
+    </label>`
+  ).join('');
+  selectedExtras = [];
+}
+
+function toggleExtra(id) {
+  const i = selectedExtras.indexOf(id);
+  if (i>-1) selectedExtras.splice(i,1); else selectedExtras.push(id);
+  document.getElementById('el-'+id).classList.toggle('selected', selectedExtras.includes(id));
+}
+
+function skipExtras() { if(pendingItem){cart.push({...pendingItem,extras:[]});updateCart();} closeModal(); }
+function confirmExtras() {
+  if(pendingItem){
+    const extras = UPSELL_EXTRAS.filter(e=>selectedExtras.includes(e.id));
+    cart.push({...pendingItem,extras,price:pendingItem.price+extras.reduce((s,e)=>s+e.price,0)});
+    updateCart();
+  }
+  closeModal();
+}
+function closeModal() { document.getElementById('upsellModal').classList.remove('open'); pendingItem=null; }
+
+function updateCart() {
+  const count = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('mobileBadge').textContent = count;
+  const list = document.getElementById('cartItemsList');
+  const empty = document.getElementById('cartEmpty');
+  const summary = document.getElementById('cartSummary');
+  const waBtn = document.getElementById('waOrderBtn');
+  if(!cart.length){ empty.style.display='flex'; list.style.display='none'; summary.style.display='none'; waBtn.disabled=true; return; }
+  empty.style.display='none'; list.style.display='flex'; summary.style.display='block'; waBtn.disabled=false;
+  list.innerHTML = cart.map((item,idx)=>{
+    const ex = item.extras.length ? item.extras.map(e=>e.name).join(', ') : '';
+    return `<div class="cart-item">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        ${ex?`<div class="cart-item-extras">+ ${ex}</div>`:''}
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.3rem">
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
+        </div>
+        <div class="cart-item-price">${item.price*item.qty} DH</div>
+      </div>
+    </div>`;
+  }).join('');
+  const sub = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('subtotalAmt').textContent = sub+' DH';
+  document.getElementById('totalAmt').textContent = sub+' DH';
+}
+
+function changeQty(idx, delta) { cart[idx].qty+=delta; if(cart[idx].qty<=0) cart.splice(idx,1); updateCart(); }
+
+function orderViaWhatsApp() {
+  if(!cart.length) return;
+  const lines = cart.map(item=>{
+    const ex = item.extras.length ? ` (+ ${item.extras.map(e=>e.name).join(', ')})` : '';
+    return `• ${item.qty}x ${item.name}${ex} — ${item.price*item.qty} DH`;
+  });
+  const total = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  const header = lang==='fr' ? '🍽️ *Nouvelle Commande — All Day Cafe*' : '🍽️ *New Order — All Day Cafe*';
+  const totalLine = lang==='fr' ? `*Total: ${total} DH*` : `*Total: ${total} DH*`;
+  const thanks = lang==='fr' ? 'Merci! 🙏' : 'Thank you! 🙏';
+  const msg = `${header}\n\n${lines.join('\n')}\n\n${totalLine}\n\n${thanks}`;
+  window.open(`https://wa.me/212633635000?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+function toggleOrderForm() { document.getElementById('orderFormWrap').classList.toggle('open'); }
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+
+document.getElementById('orderFormEl').addEventListener('submit', function(e){
+  e.preventDefault();
+  if(!cart.length){ alert(lang==='fr'?'Veuillez d\'abord ajouter des articles.':'Please add items first.'); return; }
+  const name = document.getElementById('of-name').value;
+  const phone = document.getElementById('of-phone').value;
+  const address = document.getElementById('of-address').value;
+  const lines = cart.map(item=>{
+    const ex = item.extras.length ? ` (+ ${item.extras.map(e=>e.name).join(', ')})` : '';
+    return `• ${item.qty}x ${item.name}${ex} — ${item.price*item.qty} DH`;
+  });
+  const total = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  const msg = lang==='fr'
+    ? `🍽️ *Commande All Day Cafe*\n\n👤 Nom: ${name}\n📞 Tél: ${phone}\n📍 Adresse: ${address}\n\n${lines.join('\n')}\n\n*Total: ${total} DH*`
+    : `🍽️ *Order — All Day Cafe*\n\n👤 Name: ${name}\n📞 Phone: ${phone}\n📍 Address: ${address}\n\n${lines.join('\n')}\n\n*Total: ${total} DH*`;
+  window.open(`https://wa.me/212633635000?text=${encodeURIComponent(msg)}`,'_blank');
+});
+
+document.getElementById('upsellModal').addEventListener('click', e=>{ if(e.target===document.getElementById('upsellModal')) closeModal(); });
+
+document.querySelectorAll('.cat-btn').forEach(btn=>{
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById(this.dataset.target)?.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active',b.dataset.target===entry.target.id));
+    }
+  });
+},{threshold:.3,rootMargin:'-140px 0px -60% 0px'});
+document.querySelectorAll('.cat-section').forEach(s=>observer.observe(s));
+
+renderMenu();
+updateCart();
+</script>
+</body>
+</html>
